@@ -1,4 +1,4 @@
-# serverside-MEAN - Krishna Kolli
+# Serverside-MEAN - Krishna Kolli
 
 This is a simple file that introduces the server-side MEAN stack. It uses Mongoose to simplify the interaction with Mongo-DB. 
 
