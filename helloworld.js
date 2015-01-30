@@ -19,8 +19,8 @@ var postSchema = mongoose.Schema({
 var posts = mongoose.model('Posts', postSchema);
 
 var commentSchema = mongoose.Schema({
-	name: String
-    _post: { type: Schema.Types.ObjectId, ref: 'Posts', required: true }
+	name: String ,
+    _post: { type: mongoose.Schema.Types.ObjectId, ref: 'Posts', required: true }
 });
 var comments = mongoose.model('comments', commentSchema);
 
@@ -67,7 +67,7 @@ app.get('/post/:id/comment', function(req, res) {
 
 app.post('/post/:id/comment', function (req, res) {
     var newComments = new comments({
-        name: req.body.Name
+        name: req.body.Name,
         _post: req.params.id
     });
     newComments.save(function(err, saveitem){
