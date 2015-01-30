@@ -16,13 +16,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var postSchema = mongoose.Schema({
     name: String
 });
+var posts = mongoose.model('Posts', postSchema);
 
 var commentSchema = mongoose.Schema({
-	name:String
+	name: String
+    _post: { type: Schema.Types.ObjectId, ref: 'Posts', required: true }
 });
-
-
-var posts = mongoose.model('Posts', postSchema);
 var comments = mongoose.model('comments', commentSchema);
 
 app.get('/post', function(req, res) {
@@ -32,32 +31,58 @@ app.get('/post', function(req, res) {
     });
 });
 
-app.get('/post/comment', function(req, res) {
-    comments.find(function(err, mycomments){
-    	if(err) return console.error(err);
-    	res.json(mycomments);
-    });
-});
-
 app.post('/post', function (req, res) {
-	var newPost = new posts({
-		name: req.body.Name
-	});
-	newPost.save(function(err, saveitem){
-		if(err) return console.error(err);
-	});
+    var newPost = new posts({
+        name: req.body.Name
+    });
+    newPost.save(function(err, saveitem){
+        if(err) return console.error(err);
+    });
     res.sendStatus(200);
 });
 
-app.post('/post/comment', function (req, res) {
+app.put('/post/:id', function (req, res) {
+    var val = {};
+    val.name = req.body.name;
+    posts.findOneAndUpdate({ '_id': req.params.id }, val,  function (err, postitem) {
+      if(err) return console.error(err);
+    });
+    res.sendStatus(200);
+});
+
+app.delete('/post/:id', function (req, res) {
+    posts.findOneAndDelete({ '_id': req.params.id }, function (err, postitem) {
+      if(err) return console.error(err);
+    });
+    res.sendStatus(200);
+});
+
+
+app.get('/post/:id/comment', function(req, res) {
+    comments.find({'_post' : req.params.post_id}, function (err, comments) {
+    if(err) return console.error(err);
+        res.json(mycomments);
+    });
+});
+
+app.post('/post/:id/comment', function (req, res) {
     var newComments = new comments({
         name: req.body.Name
+        _post: req.params.id
     });
     newComments.save(function(err, saveitem){
         if(err) return console.error(err);
     });
     res.sendStatus(200);
 });
+
+app.put('/post/:id/comment/:Cid', function(req, res){
+    res.send('PUT comments to homepage');
+});
+
+app.delete('/post/:id/comment/:Cid', function(req, res){
+    res.send('delete comments to homepage');
+})
 
 server.listen(3000, 'localhost');
 server.on('listening', function() {
