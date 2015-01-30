@@ -43,7 +43,7 @@ app.post('/post', function (req, res) {
 
 app.put('/post/:id', function (req, res) {
     var val = {};
-    val.name = req.body.name;
+    val.name = req.body.Name;
     posts.findOneAndUpdate({ '_id': req.params.id }, val,  function (err, postitem) {
       if(err) return console.error(err);
     });
@@ -51,7 +51,7 @@ app.put('/post/:id', function (req, res) {
 });
 
 app.delete('/post/:id', function (req, res) {
-    posts.findOneAndDelete({ '_id': req.params.id }, function (err, postitem) {
+    posts.findOneAndRemove({ '_id': req.params.id }, function (err, postitem) {
       if(err) return console.error(err);
     });
     res.sendStatus(200);
