@@ -59,9 +59,9 @@ app.delete('/post/:id', function (req, res) {
 
 
 app.get('/post/:id/comment', function(req, res) {
-    comments.find({'_post' : req.params.post_id}, function (err, comments) {
+    comments.find({'_post' : req.params.id}, function (err, mycomments) {
     if(err) return console.error(err);
-        res.json(mycomments);
+        res.send(mycomments);
     });
 });
 
@@ -77,11 +77,20 @@ app.post('/post/:id/comment', function (req, res) {
 });
 
 app.put('/post/:id/comment/:Cid', function(req, res){
-    res.send('PUT comments to homepage');
+    var val = {};
+    val.name = req.body.Name;
+    comments.findOneAndUpdate({ _post : req.params.id, _id: req.params.Cid }, val,  function (err, mycomments) {
+     if(err) return console.error(err);
+    });
+    res.sendStatus(200);
 });
 
 app.delete('/post/:id/comment/:Cid', function(req, res){
-    res.send('delete comments to homepage');
+    comments.findOneAndRemove({ _post : req.params.id, _id: req.params.Cid }, function (err, mycomments) {
+     if(err) return console.error(err);
+     console.log(mycomments);
+    });
+    res.sendStatus(200);
 })
 
 server.listen(3000, 'localhost');
