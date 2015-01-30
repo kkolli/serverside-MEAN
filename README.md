@@ -23,10 +23,10 @@ DELETE /post/:id/comment/:Cid <br/>
 ### Sample CURL Commands
 ```
 
-  curl -X POST http://localhost:3000/post -d "Name=MyLife"
-  curl -X POST http://localhost:3000/post/5454cbca2853abdcb60196f59f/comment -d "Name=MyFav"
-  curl -X PUT http://localhost:3000/post/54cbca2853abdcb60196f59f -d "Name=MyLife2"
-  curl -H "Content-Type: application/json" http://localhost:3000/post
+curl -X POST http://localhost:3000/post -d "Name=MyLife"
+curl -X POST http://localhost:3000/post/5454cbca2853abdcb60196f59f/comment -d "Name=MyFav"
+curl -X PUT http://localhost:3000/post/54cbca2853abdcb60196f59f -d "Name=MyLife2"
+curl -H "Content-Type: application/json" http://localhost:3000/post
 
 ```
 
